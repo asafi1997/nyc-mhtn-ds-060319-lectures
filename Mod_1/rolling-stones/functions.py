@@ -91,11 +91,63 @@ def find_by_artist(artist):
     return x
 
 def artist_most_albums():
-    readers_num = list(map(lambda x: {'artist':x["artist"], 'no_albums':len(find_by_artist(x["artist"]))}, readers))
-    num = 0
-    for i in list(range(0, len(readers_num))):
-        if readers_num[i]["no_albums"] > num:
-            num = readers_num[i]["no_albums"]
-            max_artist = readers_num[i]
-    return max_artist
+    readers_num = {}
+    for i in range(len(readers)):
+        reader = {readers[i]["artist"]: len(find_by_artist(readers[i]["artist"]))}
+        readers_num.update(reader)
+        
+    num = 0 
+    for key in readers_num:
+        if readers_num[key] > num:
+            num = readers_num[key]
+            max_artist = {key:readers_num[key]}
+#     return max_artist
+            
+    max_artist_list = {}
+    for key in readers_num:
+        if readers_num[key] == num: 
+            artist = {key:readers_num[key]}
+            max_artist_list.update(artist)
+    return max_artist_list
+
+
+#For Most Popular Word
+
+def list_of_words(readers):
+    list_words = []
+    for i in range(len(readers)):
+        list_words.append(readers[i]['album'].split())
+    return list_words
+
+def find_by_word(word):
+    x = []
+    list_words = list_of_words(readers)
+    for i in list(range(0, len(readers))):
+        if word in list_words[i]:
+            x.append(word)   
+    return x
+
+def most_word():
+    list_words = list_of_words(readers)
+    words_num = {}
+    for i in range(len(list_words)):
+        for j in range(len(list_words[i])):
+            word = {list_words[i][j]: len(find_by_word(list_words[i][j]))}
+            words_num.update(word)
+    
+    num = 0 
+    for key in words_num:
+        if words_num[key] > num:
+            num = words_num[key]
+            max_word = {key:words_num[key]}
+#     return max_artist
+            
+    max_word_list = {}
+    for key in words_num:
+        if words_num[key] == num: 
+            wordx = {key:words_num[key]}
+            max_word_list.update(wordx)
+    return max_word_list
+ 
+    
                      
